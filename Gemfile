@@ -58,3 +58,7 @@ end
 
 # GEMA EN DESARROLLO
 gem 'secure_framework', path: '../secure_framework'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 6.1.0'
+end
