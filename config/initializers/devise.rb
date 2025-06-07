@@ -9,12 +9,15 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  # Load Devise secret key from encrypted credentials.
+  config.secret_key = Rails.application.credentials.dig(:devise, :secret_key)
+
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'cf349c9f7c564803370368f23b07d5ad14e1d7bfc2579e40d84aec246fae074e3fa41d7c8a701867aac13ed76989acf39a92eaeb78d1a465706c6bdc72559b60'
+  # config.secret_key = '3f15244664b54b53d5c8d54b6eab17bbcf0df69ec498f402c82aa1a21148dbbe353d62a9bbfb1e3c9dbca5c3ebc4dfdd11aeb80a441b755a42897c2aa697a7c8'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -126,7 +129,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '686cdead9ebed8f34bd94c08527f9c6bf49b84cae3f71e67279fc0aa69dc45a729c3bf4297ce8a1250b2f327f1900962225e47b17860ea29b821391f67f89234'
+  # config.pepper = '64913493c140f26e2baefff49e2fbb74fc866bf37b97edd2688c02acacbd3f6f81be6cf72e7a9ea4628db84ff6d07556ae1f0d586a5f43065f58c228b82020d8'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -194,7 +197,7 @@ Devise.setup do |config|
   # Defines which strategy will be used to lock an account.
   # :failed_attempts = Locks an account after a number of failed attempts to sign in.
   # :none            = No lock strategy. You should handle locking by yourself.
-  # config.lock_strategy = :failed_attempts
+  config.lock_strategy = :failed_attempts
 
   # Defines which key will be used when locking and unlocking an account
   # config.unlock_keys = [:email]
@@ -204,14 +207,14 @@ Devise.setup do |config|
   # :time  = Re-enables login after a certain amount of time (see :unlock_in below)
   # :both  = Enables both strategies
   # :none  = No unlock strategy. You should handle unlocking by yourself.
-  # config.unlock_strategy = :both
+  config.unlock_strategy = :time
 
   # Number of authentication tries before locking an account if lock_strategy
   # is failed attempts.
-  # config.maximum_attempts = 20
+  config.maximum_attempts = 5
 
   # Time interval to unlock the account if :time is enabled as unlock_strategy.
-  # config.unlock_in = 1.hour
+  config.unlock_in = 30.minutes
 
   # Warn on the last attempt before the account is locked.
   # config.last_attempt_warning = true
