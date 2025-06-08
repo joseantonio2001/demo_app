@@ -3,6 +3,7 @@ PATH
   specs:
     secure_framework (0.1.0)
       devise (~> 4.9.3)
+      pundit (~> 2.3)
       rails (~> 7.2.2)
 
 GEM
@@ -184,6 +185,8 @@ GEM
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
+    pundit (2.5.0)
+      activesupport (>= 3.0.0)
     racc (1.8.1)
     rack (3.1.16)
     rack-session (2.1.1)
