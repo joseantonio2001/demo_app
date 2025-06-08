@@ -1,0 +1,50 @@
+<% content_for :title, "Posts" %>
+
+<h1>Posts</h1>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    <div id="<%= dom_id post %>" style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+      
+      <h2><%= link_to post.title, post %></h2>
+      <p><%= truncate(post.content, length: 150) %></p>
+
+      <p style="color: #555; font-size: 0.9em; margin-top: 10px;">
+        <em>Publicado por: <%= post.user.email %></em>
+      </p>
+
+      <div style="margin-top: 15px;">
+        <% if policy(post).edit? %>
+          <%= link_to "Edit this post", edit_post_path(post), style: "margin-right: 10px;" %>
+        <% end %>
+
+        <% if policy(post).destroy? %>
+          <%= link_to "Destroy this post", post, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if policy(Post).new? %>
+  <%= link_to "New post", new_post_path, class: "btn-outline" %>
+<% end %>
+
+<style>
+  .btn-outline {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+    background-color: #fff;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-outline:hover {
+    background-color: #f5f5f5;
+    border-color: #999;
+    color: #000;
+  }
+</style>

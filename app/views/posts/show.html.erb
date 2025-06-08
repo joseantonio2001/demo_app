@@ -1,0 +1,21 @@
+<h1><%= @post.title %></h1>
+<p><%= @post.content %></p>
+
+<hr style="margin: 20px 0;">
+
+<%# Bloque de acciones para el propietario del post %>
+<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+  <% if policy(@post).edit? %>
+    <%= link_to "Edit this post", edit_post_path(@post) %>
+  <% end %>
+
+  <% if policy(@post).destroy? %>
+    <%= link_to "Destroy this post", @post, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+  <% end %>
+</div>
+
+<%# Bloque de navegación %>
+<div>
+  <%= link_to "Back to all posts", posts_path %>
+</div>
+
