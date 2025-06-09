@@ -24,7 +24,13 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
+    # 1. Construir el objeto con los parámetros permitidos
     @post = current_user.posts.build(post_params)
+    
+    # 2. Sanear el contenido ANTES de autorizar y guardar (ESTO YA ESTÁ CORRECTO)
+    @post.title = sanitize_post_content(@post.title)
+    @post.content = sanitize_post_content(@post.content)
+
     authorize @post
 
     respond_to do |format|
@@ -41,8 +47,17 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     authorize @post
+    
+    # 1. Preparar un hash con los parámetros saneados
+    sanitized_params = post_params.to_h # Convertir a Hash para poder modificarlo
+    
+    # Sanear tanto el título como el contenido si están presentes en los parámetros
+    sanitized_params[:title] = sanitize_post_content(sanitized_params[:title]) if sanitized_params.key?(:title) # <--- AÑADIR ESTA LÍNEA
+    sanitized_params[:content] = sanitize_post_content(sanitized_params[:content]) if sanitized_params.key?(:content)
+
     respond_to do |format|
-      if @post.update(post_params)
+      # 2. Usar el hash saneado para la actualización
+      if @post.update(sanitized_params)
         format.html { redirect_to @post, notice: "Post was successfully updated." }
         format.json { render :show, status: :ok, location: @post }
       else
@@ -72,6 +87,11 @@ class PostsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:title, :content)
-      # params.require(:post).permit(:title, :content, :user_id)
+    end
+
+    def sanitize_post_content(dirty_html)
+      return nil if dirty_html.nil?
+      # Configuración SECURE_FRAMEWORK definida en config/initializers/sanitize.rb
+      Sanitize.fragment(dirty_html, Sanitize::Config::SECURE_FRAMEWORK)
     end
 end

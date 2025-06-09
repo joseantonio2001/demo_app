@@ -1,5 +1,6 @@
 <h1><%= @post.title %></h1>
-<p><%= @post.content %></p>
+
+<div><%= raw @post.content %></div>
 
 <hr style="margin: 20px 0;">
 
@@ -18,4 +19,3 @@
 <div>
   <%= link_to "Back to all posts", posts_path %>
 </div>
-

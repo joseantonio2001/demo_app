@@ -5,6 +5,7 @@ PATH
       devise (~> 4.9.3)
       pundit (~> 2.3)
       rails (~> 7.2.2)
+      sanitize (>= 6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -291,6 +292,9 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     rubyzip (2.4.1)
+    sanitize (7.0.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.16.8)
     securerandom (0.4.1)
     selenium-webdriver (4.33.0)
       base64 (~> 0.2)
