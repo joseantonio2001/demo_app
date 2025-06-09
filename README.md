@@ -55,7 +55,7 @@ To run the `demo_app` in a local environment, follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/joseantonio2001/demo_app.git](https://github.com/joseantonio2001/demo_app.git)
+    git clone https://github.com/joseantonio2001/demo_app.git
     cd demo_app
     ```
 
@@ -69,13 +69,19 @@ To run the `demo_app` in a local environment, follow these steps:
     yarn install
     ```
 
-3.  **Set up the database:**
+3.  **Run the framework installer:**
+    This command will copy the necessary configuration files (like `devise.rb`, `secure_headers.rb`, etc.) from `secure_framework` into your application.
+    ```bash
+    rails generate secure_framework:install
+    ```
+
+4.  **Set up the database:**
     ```bash
     rails db:create
     rails db:migrate
     ```
 
-4.  **Run the application:**
+5.  **Run the application:**
     ```bash
     rails server
     ```
