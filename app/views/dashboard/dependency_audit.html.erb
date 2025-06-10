@@ -1,0 +1,49 @@
+<%# app/views/dashboard/dependency_audit.html.erb %>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Dependency Audit</h1>
+  <p>Results of the vulnerability scan for the project's gems.</p>
+
+  <% if @results.empty? %>
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Congratulations!</h4>
+      <p>No known vulnerabilities were found in your project's dependencies.</p>
+    </div>
+  <% else %>
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">Warning!</h4>
+      <p>The following vulnerabilities were found. It is crucial to update them as soon as possible.</p>
+    </div>
+
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Gem</th>
+          <th>Version</th>
+          <th>Vulnerability</th>
+          <th>Criticality</th>
+          <th>Solution</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @results.each do |result| %>
+          <% if result.respond_to?(:gem) %>
+            <tr>
+              <td><%= result.gem.name %></td>
+              <td><%= result.gem.version %></td>
+              <td>
+                <a href="<%= result.advisory.url %>" target="_blank" rel="noopener noreferrer">
+                  <%= result.advisory.title %>
+                </a>
+              </td>
+              <td><%= result.advisory.criticality&.capitalize || 'N/A' %></td>
+              <td>Upgrade to version <%= result.advisory.patched_versions.join(', ') %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <%= link_to 'Back to Dashboard', dashboard_path, class: 'btn btn-secondary mt-3' %>
+</div>

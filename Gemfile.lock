@@ -2,6 +2,7 @@ PATH
   remote: ../secure_framework
   specs:
     secure_framework (0.1.0)
+      bundler-audit (~> 0.9.1)
       devise (~> 4.9.3)
       pundit (~> 2.3)
       rails (~> 7.2.2)
@@ -95,6 +96,9 @@ GEM
     brakeman (7.0.2)
       racc
     builder (3.3.0)
+    bundler-audit (0.9.2)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     capybara (3.40.0)
       addressable
       matrix
