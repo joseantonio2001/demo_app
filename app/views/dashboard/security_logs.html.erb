@@ -1,0 +1,16 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Security Event Logs</h1>
+  <p>Displaying the last 50 security events.</p>
+
+  <div class="card">
+    <div class="card-body">
+      <% if @security_events.any? %>
+        <pre style="background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word;"><%= @security_events.join("\n") %></pre>
+      <% else %>
+        <p class="text-muted">No security events recorded yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <%= link_to 'Back to Dashboard', dashboard_path, class: 'btn btn-secondary mt-3' %>
+</div>

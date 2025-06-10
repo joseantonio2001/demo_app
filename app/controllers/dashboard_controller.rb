@@ -17,6 +17,20 @@ class DashboardController < ApplicationController
     
     # Asigna los resultados a la variable @results para usarla en la vista
     @results = scanner.scan.to_a
-  end  
-  
+  end
+
+  def security_logs
+    # Esta línea asegura que solo los usuarios administradores puedan acceder.
+    # Asumimos que tu modelo User tiene un campo booleano `admin`.
+    unless current_user.admin?
+      redirect_to dashboard_path, alert: 'Acceso denegado. Se requiere ser administrador.'
+      return
+    end
+
+    log_file = Rails.root.join('log', 'security.log')
+    @security_events = []
+    if File.exist?(log_file)
+      @security_events = File.readlines(log_file).last(50).reverse
+    end
+  end
 end

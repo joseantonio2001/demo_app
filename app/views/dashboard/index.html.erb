@@ -1,52 +1,76 @@
 <h1>Dashboard</h1>
-<p>Welcome, <%= current_user.email %>!</p>
+<p>
+  Welcome, <%= current_user.email %>!
+  
+  <%# La etiqueta de rol se muestra a todos los usuarios logueados %>
+  <% if current_user.admin? %>
+    <span class="badge bg-success ms-2">Admin</span>
+  <% else %>
+    <span class="badge bg-secondary ms-2">User</span>
+  <% end %>
+</p>
+
 <p>This is a protected area.</p>
 
-
 <hr class="my-4">
 
-<div>
-  <div class="d-flex justify-content-between align-items-center">
-    <span>Secrets Integration Status:</span>
-    <% if @api_key %>
-      <span class="badge bg-success">SUCCESS</span>
-    <% else %>
-      <span class="badge bg-danger">ERROR</span>
-    <% end %>
-  </div>
+<%# --- INICIO: Lógica de visualización por rol --- %>
+<% if current_user.admin? %>
+  
+  <%# --- SECCIÓN 1: ESTADO DE LOS SECRETOS (Solo para Admins) --- %>
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span>Secrets Integration Status:</span>
+      <% if @api_key %>
+        <span class="badge bg-success">SUCCESS</span>
+      <% else %>
+        <span class="badge bg-danger">ERROR</span>
+      <% end %>
+    </div>
 
-  <div class="mt-2">
-    <% if @api_key %>
-      <details>
-        <summary style="cursor: pointer; color: #6c757d; font-size: 0.9em;">
-          Show Secret Key (demo only)
-        </summary>
-        <div class="card card-body bg-light mt-2 py-2 px-3">
-          <code style="font-size: 0.85em;"><%= @api_key %></code>
-        </div>
-        
-        <div class="alert alert-warning d-flex align-items-center mt-2" role="alert" style="font-size: 0.9em; padding: 0.5rem 1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-          </svg>
-          <div>
-            <strong>Important:</strong> Never expose secrets in the front-end. This is for demonstration purposes only.
+    <div class="mt-2">
+      <% if @api_key %>
+        <details>
+          <summary style="cursor: pointer; color: #6c757d; font-size: 0.9em;">
+            Show Secret Key (demo only)
+          </summary>
+          <div class="card card-body bg-light mt-2 py-2 px-3">
+            <code style="font-size: 0.85em;"><%= @api_key %></code>
           </div>
-        </div>
-      </details>
-    <% else %>
-      <p class="text-danger mb-0">
-        <small>Could not load the <code>api_key</code>. Please check your credentials file.</small>
-      </p>
-    <% end %>
+          <div class="alert alert-warning d-flex align-items-center mt-2" role="alert" style="font-size: 0.9em; padding: 0.5rem 1rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+            <div><strong>Important:</strong> Never expose secrets in the front-end. This is for demonstration purposes only.</div>
+          </div>
+        </details>
+      <% else %>
+        <p class="text-danger mb-0"><small>Could not load the <code>api_key</code>. Please check your credentials file.</small></p>
+      <% end %>
+    </div>
   </div>
-</div>
 
+  <hr class="my-4">
 
-<hr class="my-4">
+  <%# --- SECCIÓN 2: HERRAMIENTAS DE SEGURIDAD (Solo para Admins) --- %>
+  <div>
+    <h3 class="mb-3">Security Tools</h3>
+    <p>Access the different security utilities provided by the framework.</p>
 
-<div>
-  <h3 class="mb-3">Security Tools</h3>
-  <p>Access the different security utilities provided by the framework.</p>
-  <%= link_to 'Run Dependency Audit', dashboard_dependency_audit_path, class: 'btn btn-primary' %>
-</div>
+    <div class="mb-4">
+      <%= link_to 'Run Dependency Audit', dashboard_dependency_audit_path, class: 'btn btn-primary' %>
+      <p class="text-muted fst-italic small mt-1">Scans the project's gems for known security vulnerabilities.</p>
+    </div>
+
+    <div>
+      <%= link_to 'View Security Logs', security_logs_dashboard_path, class: 'btn btn-warning' %>
+      <p class="text-muted fst-italic small mt-1">View the latest recorded security events, such as failed logins or authorization failures.</p>
+    </div>
+  </div>
+
+<% else %>
+  <%# --- MENSAJE PARA USUARIOS NO ADMINISTRADORES --- %>
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">Standard User Access</h4>
+    <p>You have standard user privileges. Administrative tools are not available for your account.</p>
+  </div>
+<% end %>
+<%# --- FIN: Lógica de visualización por rol --- %>

@@ -50,9 +50,9 @@ RSpec.feature "PostAuthorization", type: :feature do
     scenario "is redirected when trying to edit another user's post" do
       visit edit_post_path(post_by_user_one)
       
-      # Pundit debe redirigir a la raíz y mostrar un error
+      # Pundit debe redirigir y mostrar el nuevo mensaje en inglés
       expect(page).to have_current_path(root_path)
-      expect(page).to have_content("No tienes autorización para realizar esta acción.")
+      expect(page).to have_content("You are not authorized to perform this action.")
     end
   end
 

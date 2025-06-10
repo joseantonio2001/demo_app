@@ -33,8 +33,9 @@ RSpec.feature "Password Recovery", type: :feature do
         expect(page).to have_content("You are now signed in.")
 
         # 6. Cerrar sesión e iniciar sesión con la nueva contraseña
-        click_button "Cerrar Sesión"
-        
+        find('a.dropdown-toggle', text: user.email).click
+        click_button "Sign Out"
+
         visit new_user_session_path
         fill_in "Email", with: user.email
         fill_in "Password", with: "NewSecurePassword456!"

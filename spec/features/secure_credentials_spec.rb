@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.feature "Secure Credentials Feature", type: :feature do
-  let(:user) { create(:user) }
+  let(:admin_user) { create(:user, admin: true) }
 
   before do
     # Inicia sesión el usuario antes de cada prueba
-    login_as(user, scope: :user)
+    login_as(admin_user, scope: :user)
 
     # Stub Rails credentials para aislar el test. Esto está perfecto.
     allow(Rails.application).to receive(:credentials).and_return({

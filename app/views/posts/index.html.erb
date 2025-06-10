@@ -10,7 +10,9 @@
       <p><%= truncate(post.content, length: 150) %></p>
 
       <p style="color: #555; font-size: 0.9em; margin-top: 10px;">
-        <em>Publicado por: <%= post.user.email %></em>
+        <em>
+          Published by: <%= post.user.email %>
+        </em>
       </p>
 
       <div style="margin-top: 15px;">

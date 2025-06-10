@@ -22,7 +22,11 @@ RSpec.feature "User Session", type: :feature do
         
         visit root_path
         
-        click_button "Cerrar Sesión" 
+        # 1. Clic en el menú desplegable que muestra el email
+        find('a.dropdown-toggle', text: user.email).click
+
+        # 2. Clic en el botón "Sign Out" dentro del menú
+        click_button "Sign Out" 
         
         expect(page).to have_content("Signed out successfully.")
     end
