@@ -25,7 +25,6 @@ RSpec.feature "Secure Credentials Feature", type: :feature do
     find('summary', text: "Show Secret Key (demo only)").click
 
     # 4. Ahora que está visible, verificar el contenido del desplegable
-    # Es mejor usar selectores más específicos que `have_content` para evitar falsos positivos.
     within('details') do
       expect(page).to have_selector("code", text: "test_key_from_spec")
       expect(page).to have_content("Important: Never expose secrets in the front-end.")
